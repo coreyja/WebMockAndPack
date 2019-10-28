@@ -1,13 +1,20 @@
 # frozen_string_literal: true
 
+require 'webmock'
+require 'webpacker'
+
+module BypassWebmock
+  def perform_request(env)
+    WebMock.disable!.tap { Rails.logger.info 'Disabled webmock' }
+    super.tap { WebMock.enable!.tap { Rails.logger.info 'Enabled webmock' } }
+  end
+end
+
 module Webpackandmock
   class Railtie < ::Rails::Railtie
-    initializer 'webpackandmock.replace_webpacker_proxy', after: 'webpacker.proxy' do |app|
+    initializer 'myapp.replace_webpacker_proxy', after: 'webpacker.proxy' do |app|
       my_proxy = Class.new(Webpacker::DevServerProxy) do
-        def perform_request(env)
-          WebMock.disable!
-          super.tap { WebMock.enable! }
-        end
+        include BypassWebmock
       end
 
       swap_with = if Rails::VERSION::MAJOR >= 5
