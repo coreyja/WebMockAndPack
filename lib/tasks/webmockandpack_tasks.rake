@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :webmockandpack do
+# task :webpackandmock do
 #   # Task goes here
 # end

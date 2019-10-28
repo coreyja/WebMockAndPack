@@ -1,0 +1,3 @@
+release:
+  push: true
+  tag: true

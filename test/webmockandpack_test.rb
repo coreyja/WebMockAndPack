@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class Webmockandpack::Test < ActiveSupport::TestCase
+class Webpackandmock::Test < ActiveSupport::TestCase
   test "truth" do
-    assert_kind_of Module, Webmockandpack
+    assert_kind_of Module, Webpackandmock
   end
 end

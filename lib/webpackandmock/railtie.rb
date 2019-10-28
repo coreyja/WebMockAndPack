@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module Webmockandpack
+module Webpackandmock
   class Railtie < ::Rails::Railtie
-    initializer 'myapp.replace_webpacker_proxy', after: 'webpacker.proxy' do |app|
+    initializer 'webpackandmock.replace_webpacker_proxy', after: 'webpacker.proxy' do |app|
       my_proxy = Class.new(Webpacker::DevServerProxy) do
         def perform_request(env)
           WebMock.disable!
