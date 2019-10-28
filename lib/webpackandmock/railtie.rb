@@ -4,9 +4,16 @@ require 'webmock'
 require 'webpacker'
 
 module BypassWebmock
+  mattr_accessor :times_disabled
+
+  self.times_disabled = 0
+
   def perform_request(env)
-    WebMock.disable!.tap { Rails.logger.info 'Disabled webmock' }
-    super.tap { WebMock.enable!.tap { Rails.logger.info 'Enabled webmock' } }
+    WebMock.disable!.tap { self.times_disabled += 1 }
+    result = super
+    self.times_disabled -= 1
+    WebMock.enable! if self.times_disabled.zero?
+    result
   end
 end
 
